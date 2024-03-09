@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogApp.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20240308090501_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240309165344_mig_!")]
+    partial class mig_
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,15 +66,12 @@ namespace BlogApp.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UseriId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("PostID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -95,14 +92,14 @@ namespace BlogApp.Migrations
 
             modelBuilder.Entity("BlogApp.Entity.User", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
@@ -145,7 +142,7 @@ namespace BlogApp.Migrations
                 {
                     b.HasOne("BlogApp.Entity.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
