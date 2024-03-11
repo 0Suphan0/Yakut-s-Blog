@@ -8,8 +8,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BlogContext>(options =>
 {
-    var connString = builder.Configuration.GetConnectionString("sql_connection");
-    options.UseSqlite(connString);
+    var connString = builder.Configuration.GetConnectionString("mssql_connection");
+    //options.UseSqlite(connString);
+    options.UseSqlServer(connString);
 });
 
 
