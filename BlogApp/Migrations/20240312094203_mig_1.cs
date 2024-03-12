@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BlogApp.Migrations
 {
     /// <inheritdoc />
-    public partial class initial_mig : Migration
+    public partial class mig_1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,13 @@ namespace BlogApp.Migrations
                 name: "Tags",
                 columns: table => new
                 {
-                    TagID = table.Column<int>(type: "int", nullable: false)
+                    TagId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tags", x => x.TagID);
+                    table.PrimaryKey("PK_Tags", x => x.TagId);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,7 +41,7 @@ namespace BlogApp.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    PostID = table.Column<int>(type: "int", nullable: false)
+                    PostId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -51,7 +51,7 @@ namespace BlogApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.PostID);
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
                     table.ForeignKey(
                         name: "FK_Posts_Users_UserId",
                         column: x => x.UserId,
@@ -66,7 +66,7 @@ namespace BlogApp.Migrations
                 {
                     CommentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CommentText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentText = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -78,37 +78,37 @@ namespace BlogApp.Migrations
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "PostID",
+                        principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PostTag",
                 columns: table => new
                 {
-                    PostsPostID = table.Column<int>(type: "int", nullable: false),
-                    TagsTagID = table.Column<int>(type: "int", nullable: false)
+                    PostsPostId = table.Column<int>(type: "int", nullable: false),
+                    TagsTagId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostTag", x => new { x.PostsPostID, x.TagsTagID });
+                    table.PrimaryKey("PK_PostTag", x => new { x.PostsPostId, x.TagsTagId });
                     table.ForeignKey(
-                        name: "FK_PostTag_Posts_PostsPostID",
-                        column: x => x.PostsPostID,
+                        name: "FK_PostTag_Posts_PostsPostId",
+                        column: x => x.PostsPostId,
                         principalTable: "Posts",
-                        principalColumn: "PostID",
+                        principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostTag_Tags_TagsTagID",
-                        column: x => x.TagsTagID,
+                        name: "FK_PostTag_Tags_TagsTagId",
+                        column: x => x.TagsTagId,
                         principalTable: "Tags",
-                        principalColumn: "TagID",
+                        principalColumn: "TagId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -128,10 +128,13 @@ namespace BlogApp.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostTag_TagsTagID",
+                name: "IX_PostTag_TagsTagId",
                 table: "PostTag",
-                column: "TagsTagID");
+                column: "TagsTagId");
         }
+
+
+
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)

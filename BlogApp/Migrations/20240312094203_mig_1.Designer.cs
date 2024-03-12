@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogApp.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20240311202715_initial_mig")]
-    partial class initial_mig
+    [Migration("20240312094203_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,6 @@ namespace BlogApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
                     b.Property<string>("CommentText")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PostId")
@@ -57,11 +56,11 @@ namespace BlogApp.Migrations
 
             modelBuilder.Entity("BlogApp.Entity.Post", b =>
                 {
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -78,7 +77,7 @@ namespace BlogApp.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("PostID");
+                    b.HasKey("PostId");
 
                     b.HasIndex("UserId");
 
@@ -87,16 +86,16 @@ namespace BlogApp.Migrations
 
             modelBuilder.Entity("BlogApp.Entity.Tag", b =>
                 {
-                    b.Property<int>("TagID")
+                    b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TagID");
+                    b.HasKey("TagId");
 
                     b.ToTable("Tags");
                 });
@@ -119,15 +118,15 @@ namespace BlogApp.Migrations
 
             modelBuilder.Entity("PostTag", b =>
                 {
-                    b.Property<int>("PostsPostID")
+                    b.Property<int>("PostsPostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagsTagID")
+                    b.Property<int>("TagsTagId")
                         .HasColumnType("int");
 
-                    b.HasKey("PostsPostID", "TagsTagID");
+                    b.HasKey("PostsPostId", "TagsTagId");
 
-                    b.HasIndex("TagsTagID");
+                    b.HasIndex("TagsTagId");
 
                     b.ToTable("PostTag");
                 });
@@ -166,13 +165,13 @@ namespace BlogApp.Migrations
                 {
                     b.HasOne("BlogApp.Entity.Post", null)
                         .WithMany()
-                        .HasForeignKey("PostsPostID")
+                        .HasForeignKey("PostsPostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BlogApp.Entity.Tag", null)
                         .WithMany()
-                        .HasForeignKey("TagsTagID")
+                        .HasForeignKey("TagsTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
