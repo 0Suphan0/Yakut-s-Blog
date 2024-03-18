@@ -1,5 +1,6 @@
 ﻿using BlogApp.Data.Abstract;
 using BlogApp.Data.Concrete.EfCore;
+using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogApp.Controllers
@@ -8,15 +9,25 @@ namespace BlogApp.Controllers
     {
 
         private readonly IPostRepository _postRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public PostsController(IPostRepository postRepository)
+
+        public PostsController(IPostRepository postRepository,ITagRepository tagRepository)
         {
             _postRepository = postRepository;
+            _tagRepository = tagRepository;
         }
 
         public IActionResult Index()
         {
-            return View(_postRepository.Posts.ToList());
+            PostViewModel postViewModel = new()
+            {
+                Posts = _postRepository.Posts.ToList(),
+                Tags = _tagRepository.Tags.ToList(),
+
+            };
+
+            return View(postViewModel);
         }
     }
 }
