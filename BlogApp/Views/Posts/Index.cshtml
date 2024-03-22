@@ -13,9 +13,9 @@
                             <img src="~/img/@items.Image" class="img-fluid rounded" alt="">
                         </div>
                         <div class="col-8">
-                            <h5><a href="#" class="btn-link fw-bold">@items.Title</a></h5>
+                            <h5><a asp-controller="Posts" asp-action="PostDetail" asp-route-id="@items.PostId" class="btn-link fw-bold">@items.Title</a></h5>
                             <p>@items.Content</p>
-                            <a href="#" class="badge bg-danger bg-opacity-10 text-danger mb-2 fw-bold">Web Development</a>
+                            <a href="#" class="badge bg-danger bg-opacity-10 text-danger mb-2 fw-bold">Tag Bilgisi gelecek.</a>
                         </div>
                     </div>
                 </div>
