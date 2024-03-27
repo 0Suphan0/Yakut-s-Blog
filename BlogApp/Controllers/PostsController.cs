@@ -26,10 +26,11 @@ namespace BlogApp.Controllers
 
             if (!string.IsNullOrEmpty(tag))
             {
-                posts = posts.Where(x => x.Tags.Any(t => t.Url == tag));
+                    posts = posts
+                    .Where(x => x.Tags.Any(t => t.Url == tag));
             }
 
-            return View(await posts.ToListAsync());
+            return View(await posts.Include(x => x.Tags).ToListAsync());
 
             #endregion
 
