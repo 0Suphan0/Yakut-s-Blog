@@ -18,11 +18,22 @@ namespace BlogApp.Controllers
             _postRepository = postRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult>Index(string tag)
         {
-            ;
+            #region Tag filtresine göre veri getirir.
 
-            return View(_postRepository.Posts.ToList());
+            var posts = _postRepository.Posts;
+
+            if (!string.IsNullOrEmpty(tag))
+            {
+                posts = posts.Where(x => x.Tags.Any(t => t.Url == tag));
+            }
+
+            return View(await posts.ToListAsync());
+
+            #endregion
+
+
         }
 
         public async Task<IActionResult> PostDetail(string url)
