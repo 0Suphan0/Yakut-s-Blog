@@ -25,9 +25,9 @@ namespace BlogApp.Controllers
             return View(_postRepository.Posts.ToList());
         }
 
-        public async Task<IActionResult> PostDetail(int? id)
+        public async Task<IActionResult> PostDetail(string url)
         {
-           Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.PostId == id);
+           Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.Url == url);
 
            return View(post);
 
