@@ -38,7 +38,10 @@ namespace BlogApp.Controllers
 
         public async Task<IActionResult> PostDetail(string url)
         {
-           Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.Url == url);
+           Post post= await _postRepository
+               .Posts
+               .Include(x=>x.Tags)
+               .FirstOrDefaultAsync(p => p.Url == url);
 
            return View(post);
 

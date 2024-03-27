@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using BlogApp.Entity;
 
 namespace BlogApp.Data.Concrete.EfCore
 {
@@ -20,11 +21,11 @@ namespace BlogApp.Data.Concrete.EfCore
                 if (!context.Tags.Any())
                 {
                     context.Tags.AddRange(
-                        new Entity.Tag { Text = "Web Programlama" ,Url = "web-programlama"},
-                        new Entity.Tag { Text = "Backend", Url = "backend" },
-                        new Entity.Tag { Text = "Frontend", Url = "frontend" },
-                        new Entity.Tag { Text = "Full Stack", Url = "fullstack" },
-                        new Entity.Tag { Text = "PHP", Url = "php" }
+                        new Entity.Tag { Text = "Web Programlama" ,Url = "web-programlama", Color = TagColors.warning},
+                        new Entity.Tag { Text = "Backend", Url = "backend", Color = TagColors.danger },
+                        new Entity.Tag { Text = "Frontend", Url = "frontend", Color = TagColors.success },
+                        new Entity.Tag { Text = "Full Stack", Url = "fullstack", Color = TagColors.secondary },
+                        new Entity.Tag { Text = "PHP", Url = "php", Color = TagColors.primary }
                     );
                     context.SaveChanges();
                 }
