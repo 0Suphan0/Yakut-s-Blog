@@ -33,8 +33,8 @@ namespace BlogApp.Data.Concrete.EfCore
                 if (!context.Users.Any())
                 {
                     context.Users.AddRange(
-                        new Entity.User { UserName = "Ahmet Yılmaz" },
-                        new Entity.User { UserName = "Süphan Yakut" }
+                        new Entity.User { UserName = "Ahmet Yılmaz",Image = "p1.jpg"},
+                        new Entity.User { UserName = "Süphan Yakut",Image = "p2.jpg"}
                     );
                     context.SaveChanges();
                 }
@@ -42,19 +42,84 @@ namespace BlogApp.Data.Concrete.EfCore
                 if (!context.Posts.Any())
                 {
                     context.Posts.AddRange(
-                        new Entity.Post { Title = "Asp.net Core", Url = "aspnet-core",Content = "Asp.net Core dersleri", IsActive = true, PublishedOn = DateTime.Now.AddDays(-10), Tags = context.Tags.Take(3).ToList(), UserId = 1,Image="1.jpg"},
-                        new Entity.Post { Title = "PHP", Content = "PHP dersleri", Url = "php", IsActive = true, PublishedOn = DateTime.Now.AddDays(-20), Tags = context.Tags.Take(2).ToList(), UserId = 1, Image = "2.jpg" },
-                        new Entity.Post { Title = "Django Dersleri", Url = "django", Content = "Tüm django dersleri ve içerikleri", IsActive = true, PublishedOn = DateTime.Now.AddDays(-5), Tags = context.Tags.Take(4).ToList(), UserId = 2, Image = "3.jpg" },
-                        new Entity.Post { Title = "React Dersleri", Url = "react-dersleri", Content = "Tüm react dersleri ve içerikleri", IsActive = true, PublishedOn = DateTime.Now.AddDays(-10), Tags = context.Tags.Take(4).ToList(), UserId = 2, Image = "3.jpg" },
-                        new Entity.Post { Title = "Angular Dersleri", Url = "angular", Content = "Tüm Angular dersleri ve içerikleri", IsActive = true, PublishedOn = DateTime.Now.AddDays(-20), Tags = context.Tags.Take(4).ToList(), UserId = 2, Image = "3.jpg" },
-                        new Entity.Post { Title = "Web Tasarım Dersleri", Url = "web-tasarım", Content = "Tüm web tasarımı dersleri ve içerikleri", IsActive = true, PublishedOn = DateTime.Now.AddDays(-30), Tags = context.Tags.Take(4).ToList(), UserId = 2, Image = "3.jpg" }
+                        new Entity.Post
+                        {
+                            Title = "Asp.net Core",
+                            Url = "aspnet-core",
+                            Content = "Asp.net Core dersleri",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-10),
+                            Tags = context.Tags.Take(3).ToList(),
+                            UserId = 1,
+                            Image = "1.jpg",
+                            Comments = new List<Comment>
+                            {
+                                new Comment() {CommentText = "Güzel bir kurs.",PublishedOn = new DateTime(),UserId = 1},
+                                new Comment() {CommentText = "harika bir kurs.",PublishedOn = new DateTime(),UserId = 2}
 
-
+                            }
+                        },
+                        new Entity.Post
+                        {
+                            Title = "PHP",
+                            Content = "PHP dersleri",
+                            Url = "php",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-20),
+                            Tags = context.Tags.Take(2).ToList(),
+                            UserId = 1,
+                            Image = "2.jpg"
+                        },
+                        new Entity.Post
+                        {
+                            Title = "Django Dersleri",
+                            Url = "django",
+                            Content = "Tüm django dersleri ve içerikleri",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-5),
+                            Tags = context.Tags.Take(4).ToList(),
+                            UserId = 2,
+                            Image = "3.jpg"
+                        },
+                        new Entity.Post
+                        {
+                            Title = "React Dersleri",
+                            Url = "react-dersleri",
+                            Content = "Tüm react dersleri ve içerikleri",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-10),
+                            Tags = context.Tags.Take(4).ToList(),
+                            UserId = 2,
+                            Image = "3.jpg"
+                        },
+                        new Entity.Post
+                        {
+                            Title = "Angular Dersleri",
+                            Url = "angular",
+                            Content = "Tüm Angular dersleri ve içerikleri",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-20),
+                            Tags = context.Tags.Take(4).ToList(),
+                            UserId = 2,
+                            Image = "3.jpg"
+                        },
+                        new Entity.Post
+                        {
+                            Title = "Web Tasarım Dersleri",
+                            Url = "web-tasarım",
+                            Content = "Tüm web tasarımı dersleri ve içerikleri",
+                            IsActive = true,
+                            PublishedOn = DateTime.Now.AddDays(-30),
+                            Tags = context.Tags.Take(4).ToList(),
+                            UserId = 2,
+                            Image = "3.jpg"
+                        }
                     );
                     context.SaveChanges();
                 }
 
-              
+
+
             }
         }
     }

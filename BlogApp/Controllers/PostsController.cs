@@ -42,6 +42,8 @@ namespace BlogApp.Controllers
            Post post= await _postRepository
                .Posts
                .Include(x=>x.Tags)
+               .Include(x=>x.Comments)
+               .ThenInclude(x=>x.User)
                .FirstOrDefaultAsync(p => p.Url == url);
 
            return View(post);
