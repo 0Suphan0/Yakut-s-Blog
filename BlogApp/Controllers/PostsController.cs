@@ -51,14 +51,19 @@ namespace BlogApp.Controllers
 
         }
 
-        public async Task<IActionResult> AddComment(int postId, string userName, string text)
+        [HttpPost]
+        public async Task<JsonResult> AddComment(int PostId, string UserName, string Text)
         {
 
-            _postRepository.AddComment(postId,text,userName);
-            Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.PostId==postId);
+            _postRepository.AddComment(PostId, Text, UserName);
+            Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.PostId== PostId);
 
-            // Yorum eklendikten sonra, Post detay sayfasına yönlendirme yapılabilir
-            return RedirectToAction("PostDetail", new { url = post.Url });
+            return Json(new
+            {
+                PostId,
+                UserName,
+                Text
+            });
         }
 
 
