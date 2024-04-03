@@ -4,6 +4,7 @@ using BlogApp.Entity;
 using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BlogApp.Controllers
 {
@@ -50,12 +51,18 @@ namespace BlogApp.Controllers
 
         }
 
-        public IActionResult AddComment(int PostId, string UserName, string Text)
+        public async Task<IActionResult> AddComment(int postId, string userName, string text)
         {
-            return View();
+
+            _postRepository.AddComment(postId,text,userName);
+            Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.PostId==postId);
+
+            // Yorum eklendikten sonra, Post detay sayfasına yönlendirme yapılabilir
+            return RedirectToAction("PostDetail", new { url = post.Url });
         }
 
 
 
-    } 
+
+    }
 }
