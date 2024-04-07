@@ -4,6 +4,7 @@ using BlogApp.Entity;
 using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace BlogApp.Controllers
@@ -12,11 +13,13 @@ namespace BlogApp.Controllers
     {
 
         private readonly IPostRepository _postRepository;
+        private readonly ICommentRepository _commentRepository;
 
 
-        public PostsController(IPostRepository postRepository)
+        public PostsController(IPostRepository postRepository, ICommentRepository commentRepository)
         {
             _postRepository = postRepository;
+            _commentRepository = commentRepository;
         }
 
         public async Task<IActionResult>Index(string tag)
@@ -48,21 +51,28 @@ namespace BlogApp.Controllers
                .FirstOrDefaultAsync(p => p.Url == url);
 
            return View(post);
-
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddComment(int PostId, string UserName, string Text)
+        public async Task<JsonResult> AddComment(int PostId, string UserName, string Text, string Url)
         {
 
-            _postRepository.AddComment(PostId, Text, UserName);
-            Post post= await _postRepository.Posts.FirstOrDefaultAsync(p => p.PostId== PostId);
+            var entity = new Comment()
+            {
+                CommentText = Text,
+                PublishedOn = DateTime.Now,
+                PostId = PostId,
+                User = new User() { UserName = UserName, Image = "p1.jpg" }
+            };
+
+            _commentRepository.CreateComment(entity);
 
             return Json(new
             {
-                PostId,
                 UserName,
-                Text
+                Text,
+                entity.PublishedOn,
+                entity.User.Image
             });
         }
 

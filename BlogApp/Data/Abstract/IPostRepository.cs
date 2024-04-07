@@ -9,7 +9,6 @@ namespace BlogApp.Data.Abstract
 
         void CreatePost(Post post);
 
-        void AddComment(int postId, string comment, string userName);
 
 
 

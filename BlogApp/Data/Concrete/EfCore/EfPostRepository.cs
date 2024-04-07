@@ -19,24 +19,7 @@ namespace BlogApp.Data.Concrete.EfCore
             _context.Posts.Add(post);
         }
 
-        public void AddComment(int postId, string comment,string userName)
-        {
-            var post = _context.Posts.FirstOrDefault(p => p.PostId == postId);
-            if (post != null)
-            {
-                if (post.Comments == null)
-                {
-                    post.Comments = new List<Comment>();
-                }
-
-                post.Comments.Add(new Comment { User = new User{UserName = userName,Image ="/p1.jpg" }, CommentText = comment ,PublishedOn = DateTime.Now});
-                _context.SaveChanges();
-            }
-            else
-            {
-                throw new ArgumentException("Post not found with the given postId");
-            }
-        }
+        
 
 
 

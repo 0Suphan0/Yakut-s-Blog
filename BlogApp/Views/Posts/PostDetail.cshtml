@@ -20,7 +20,7 @@
         <div class="bg-white mt-3">
             <div class="card border-0">
                 <div class="card-header pb-0">
-                    <h4> <span id="commentCount"> @Model.Comments.Count() adet yorum</span></h4>
+                    <h4> <span id="commentCount"> @Model.Comments.Count()</span> adet yorum</h4>
                 </div>
                 <div class="card-body">
 
@@ -49,6 +49,8 @@
                         <form action="/posts/AddComment" method="post">
 
                             <input type="hidden" id="PostId" name="PostId" value="@Model.PostId" />
+                            <input type="hidden" name="Url" value="@Model.Url" />
+
                             <div class="mb-3">
                                 <label for="UserName" class="form-label">Kullanıcı Adı</label>
                                 <input type="Text" name="UserName" id="UserName" class="form-control" />
@@ -103,6 +105,7 @@
                         Text: $('#Text').val()
                     },
                     success: function (yorum) {
+                        console.log(yorum);
                        $("#comments").append(
                             `
                                      <div class="my-4 d-flex">
@@ -112,7 +115,7 @@
                                                 <h6 class="me-2">${yorum.userName}</h6>
                                                 <small>${yorum.publishedOn}</small>
                                     </div>
-                                            <p>${yorum.commentText}</p>
+                                            <p>${yorum.text}</p>
                                     </div>
                                 </div>
                             `
@@ -120,8 +123,9 @@
                        $("#UserName").val('');
                        $("#Text").val('');
 
-                       var adet=parseInt($("commentCount").text());
-                        $("commentCount").text(adet+1);
+                       var adet=parseInt($("#commentCount").text());
+                       console.log(adet)
+                        $("#commentCount").text(adet+1);
                    
                    }
 
