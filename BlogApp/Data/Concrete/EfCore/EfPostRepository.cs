@@ -17,6 +17,7 @@ namespace BlogApp.Data.Concrete.EfCore
         public void CreatePost(Post post)
         {
             _context.Posts.Add(post);
+            _context.SaveChanges();
         }
 
         

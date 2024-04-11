@@ -17,6 +17,7 @@ namespace BlogApp.Data.Concrete.EfCore
         public void CreateUser(User user)
         {
             _context.Users.Add(user);
+            _context.SaveChanges();
         }
 
 

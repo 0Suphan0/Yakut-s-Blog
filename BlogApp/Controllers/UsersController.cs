@@ -30,10 +30,34 @@ namespace BlogApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Login");
+               
+            var user = _userRepository.Users.FirstOrDefault(u=>u.Email == model.Email || u.UserName == model.UserName);
+
+            if (user == null)
+            {
+
+                _userRepository.CreateUser(new Entity.User
+                {
+                    UserName = model.UserName,
+                    Name = model.Name,
+                    Email = model.Email,
+                    Password = model.Password,
+                    Image = "p1.jpg"
+                });
+
+                    return RedirectToAction("Login");
+
+             }
+
+            else
+            {
+                ModelState.AddModelError("", "Kullanıcı adı veya mail adresi daha önceden alınmış.");
+            }
+
             }
 
             return View(model);
+
         }
 
         public async Task<IActionResult> LogoutAsync()

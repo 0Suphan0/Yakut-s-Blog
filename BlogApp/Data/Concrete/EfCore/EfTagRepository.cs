@@ -17,6 +17,7 @@ namespace BlogApp.Data.Concrete.EfCore
         public void CreateTag(Tag tag)
         {
             _context.Tags.Add(tag);
+            _context.SaveChanges();
         }
 
 
