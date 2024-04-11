@@ -24,6 +24,7 @@ namespace BlogApp.Controllers
 
         public async Task<IActionResult>Index(string tag)
         {
+            var claims = User.Claims.ToList();
             #region Tag filtresine göre veri getirir.
 
             var posts = _postRepository.Posts;
