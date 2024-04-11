@@ -25,23 +25,28 @@ namespace BlogApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                //böyle bir user var mı kontrol et...
                 var isUser= _userRepository.Users.FirstOrDefault(p=>p.Email == model.Email && p.Password == model.Password);
 
                 if(isUser != null)
                 {
+                    //varsa claimlerini olustur..
                     var userClaims = new List<Claim>();
 
                     userClaims.Add(new Claim(ClaimTypes.NameIdentifier, isUser.UserId.ToString()));
                     userClaims.Add(new Claim(ClaimTypes.Name, isUser.UserName??""));
                     userClaims.Add(new Claim(ClaimTypes.GivenName, isUser.Name ?? ""));
 
+                    //admin mi ?
                     if (isUser.Email == "suphan@gmail.com")
                     {
                         userClaims.Add(new Claim(ClaimTypes.Role, "admin"));
                     }
 
+
                     var claimsIdentity = new ClaimsIdentity(userClaims,CookieAuthenticationDefaults.AuthenticationScheme);
 
+                    //beni hatırla
                     var authProperties = new AuthenticationProperties
                     {
                         IsPersistent = true,
