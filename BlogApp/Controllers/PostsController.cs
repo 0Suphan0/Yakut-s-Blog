@@ -4,6 +4,7 @@ using BlogApp.Entity;
 using BlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -55,25 +56,28 @@ namespace BlogApp.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddComment(int PostId, string UserName, string Text, string Url)
+        public async Task<JsonResult> AddComment(int PostId,string Text, string Url)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var userImage = User.FindFirstValue(ClaimTypes.UserData);
 
             var entity = new Comment()
             {
                 CommentText = Text,
                 PublishedOn = DateTime.Now,
                 PostId = PostId,
-                User = new User() { UserName = UserName, Image = "p1.jpg" }
+                UserId = int.Parse(userId??"")
             };
 
             _commentRepository.CreateComment(entity);
 
             return Json(new
             {
-                UserName,
+                userName,
                 Text,
                 entity.PublishedOn,
-                entity.User.Image
+                userImage
             });
         }
 
