@@ -2,7 +2,6 @@
 using BlogApp.Data.Concrete.EfCore;
 using BlogApp.Entity;
 using BlogApp.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -82,13 +81,11 @@ namespace BlogApp.Controllers
             });
         }
 
-        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Create(PostCreateViewModel model)
         {
@@ -114,23 +111,6 @@ namespace BlogApp.Controllers
             }
 
             return View(model);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> List()
-        {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)??"");
-            var role = User.FindFirstValue(ClaimTypes.Role);
-
-            var posts = _postRepository.Posts;
-
-            if (string.IsNullOrEmpty(role))
-            {
-               posts= posts.Where(p => p.UserId == userId);
-            }
-
-
-            return View(await posts.ToListAsync());
         }
 
 
