@@ -1,19 +1,39 @@
 ﻿@model List<Tag>;
 
 
-
-<div class="card mb-3">
-    <div class="card-header">
-        <h5 class="cart-title mb-0">Tags</h5>
+<div class="card">
+    <div class="card-header text-center bg-warning text-white">
+        <h5 class="card-title mb-0">Tags</h5>
     </div>
     <div class="card-body">
-        <ul class="list-inline d-flex flex-wrap gap-2">
-            @foreach(var tag in Model)
+        <div class="d-flex flex-column align-items-start">
+            @foreach (var tag in Model)
             {
-                <li class="list-inline-item">
-                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-secondary btn-sm">@tag.Text</a>
-                </li>
+                @if (tag.Text == "Web Programlama")
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-warning btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
+                else if (tag.Text == "Backend")
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-danger btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
+                else if (tag.Text == "Frontend")
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-success btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
+                else if (tag.Text == "Full Stack")
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-secondary btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
+                else if (tag.Text == "PHP")
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-info btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
+                else
+                {
+                    <a href="/posts/tag/@tag.Url" class="btn btn-outline-dark btn-sm mb-2 rounded-pill">@tag.Text</a>
+                }
             }
-        </ul>
+        </div>
     </div>
 </div>
