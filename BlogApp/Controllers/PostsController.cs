@@ -31,7 +31,7 @@ namespace BlogApp.Controllers
             var claims = User.Claims.ToList();
             #region Tag filtresine göre veri getirir.
 
-            var posts = _postRepository.Posts;
+            var posts = _postRepository.Posts.Where(i => i.IsActive); 
 
             if (!string.IsNullOrEmpty(tag))
             {
@@ -134,6 +134,61 @@ namespace BlogApp.Controllers
 
 
             return View(await posts.ToListAsync());
+        }
+
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var post = _postRepository.Posts.FirstOrDefault(i => i.PostId == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(new PostCreateViewModel()
+            {
+                PostId = post.PostId,
+                Content = post.Content,
+                Description = post.Description,
+                IsActive = post.IsActive,
+                Title = post.Title,
+                Url = post.Url
+            });
+
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(PostCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var entityToUpdate = new Post()
+                {
+                    PostId = model.PostId,
+                    Title = model.Title,
+                    Description = model.Description,
+                    Content = model.Content,
+                    Url = model.Url
+                };
+
+                if (User.FindFirstValue(ClaimTypes.Role)=="admin")
+                {
+                    entityToUpdate.IsActive = model.IsActive;
+                }
+
+                _postRepository.EditPost(entityToUpdate);
+            }
+            return RedirectToAction("List");
+
         }
 
 
