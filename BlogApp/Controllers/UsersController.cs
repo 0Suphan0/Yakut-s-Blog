@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BlogApp.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApp.Controllers
 {
@@ -19,6 +21,56 @@ namespace BlogApp.Controllers
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //böyle bir user var mı kontrol et...
+                var isUser = _userRepository.Users.FirstOrDefault(p => p.Email == model.Email && p.Password == model.Password);
+
+                if (isUser != null)
+                {
+                    //varsa claimlerini olustur..
+                    var userClaims = new List<Claim>();
+
+                    userClaims.Add(new Claim(ClaimTypes.NameIdentifier, isUser.UserId.ToString()));
+                    userClaims.Add(new Claim(ClaimTypes.Name, isUser.UserName ?? ""));
+                    userClaims.Add(new Claim(ClaimTypes.GivenName, isUser.Name ?? ""));
+                    userClaims.Add(new Claim(ClaimTypes.UserData, isUser.Image ?? ""));
+
+
+                    //admin mi ?
+                    if (isUser.Email == "suphan@gmail.com")
+                    {
+                        userClaims.Add(new Claim(ClaimTypes.Role, "admin"));
+                    }
+
+
+                    var claimsIdentity = new ClaimsIdentity(userClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    //beni hatırla
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                    };
+
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                    return RedirectToAction("Index", "Posts");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Kullanıcı adı veya şifre yanlış..");
+                }
+
+            }
+
+            return View(model);
         }
 
         public IActionResult Register()
@@ -68,54 +120,29 @@ namespace BlogApp.Controllers
             return RedirectToAction("Login");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public IActionResult Profile(string username)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(username))
             {
-                //böyle bir user var mı kontrol et...
-                var isUser= _userRepository.Users.FirstOrDefault(p=>p.Email == model.Email && p.Password == model.Password);
+                return NotFound();
+            }
 
-                if(isUser != null)
-                {
-                    //varsa claimlerini olustur..
-                    var userClaims = new List<Claim>();
+            var user = _userRepository
+                .Users
+                .Include(x => x.Posts)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.Post)
+                .FirstOrDefault(x => x.UserName == username);
 
-                    userClaims.Add(new Claim(ClaimTypes.NameIdentifier, isUser.UserId.ToString()));
-                    userClaims.Add(new Claim(ClaimTypes.Name, isUser.UserName??""));
-                    userClaims.Add(new Claim(ClaimTypes.GivenName, isUser.Name ?? ""));
-                    userClaims.Add(new Claim(ClaimTypes.UserData, isUser.Image ?? ""));
-
-
-                    //admin mi ?
-                    if (isUser.Email == "suphan@gmail.com")
-                    {
-                        userClaims.Add(new Claim(ClaimTypes.Role, "admin"));
-                    }
-
-
-                    var claimsIdentity = new ClaimsIdentity(userClaims,CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    //beni hatırla
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                    };
-
-                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity),authProperties);
-
-                    return RedirectToAction("Index", "Posts");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Kullanıcı adı veya şifre yanlış..");
-                }
+            if (user == null)
+            {
+                return NotFound();
 
             }
-       
-            return View(model);
+
+            return View(user);
         }
+
+      
     }
 }

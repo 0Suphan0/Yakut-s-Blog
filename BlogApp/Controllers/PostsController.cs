@@ -28,8 +28,7 @@ namespace BlogApp.Controllers
 
         public async Task<IActionResult>Index(string tag)
         {
-            var claims = User.Claims.ToList();
-            #region Tag filtresine göre veri getirir.
+
 
             var posts = _postRepository.Posts.Where(i => i.IsActive); 
 
@@ -41,7 +40,6 @@ namespace BlogApp.Controllers
 
             return View(await posts.Include(x => x.Tags).ToListAsync());
 
-            #endregion
 
 
         }
@@ -50,6 +48,7 @@ namespace BlogApp.Controllers
         {
            Post post= await _postRepository
                .Posts
+               .Include(x => x.User)
                .Include(x=>x.Tags)
                .Include(x=>x.Comments)
                .ThenInclude(x=>x.User)

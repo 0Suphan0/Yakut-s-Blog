@@ -14,6 +14,12 @@
 
          </div>  
          <img src="~/img/@Model.Image" class="img-fluid rounded"/>
+         <ul class="list-inline my-3">
+                <li class="list-inline-item border-bottom"> <b>Yayınlanma Tarihi:</b> @Model.PublishedOn.ToString("d")</li>
+                <li class="list-inline-item border-bottom"> <b>Yayınlayan:</b> <a href="/profile/@Model.User.UserName"> @Model.User.Name</a></li>
+
+         </ul>
+
          <div>@Html.Raw(@Model.Content)</div>
         </div>
 
@@ -32,7 +38,7 @@
                             <img src="/img/@comment.User.Image" class="avatar rounded-circle float-endstart-0 me-3">
                             <div>
                             <div class="mb-2 d-flex"> 
-                                <h6 class="me-2">@comment.User.UserName</h6>
+                                <h6 class="me-2"><a href="/profile/@comment.User.UserName"> @comment.User.UserName</a></h6>
                                 <small>@comment.PublishedOn.ToString("G")</small>
                             </div>
                             <p>@comment.CommentText</p>
