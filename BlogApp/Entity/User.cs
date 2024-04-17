@@ -12,8 +12,10 @@
 
         public string? Image { get; set; }
 
+        //O User'a ait Postlar.
         public List<Post> Posts { get; set; } = new List<Post>();
 
+        //O User'a ait Commentler.
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
     }

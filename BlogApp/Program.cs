@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//burada hangi dbContexti kullnacaðýmýzý belirtiriz ve hangi conn stringi kullancaðýmýzý yazarýz...
 builder.Services.AddDbContext<BlogContext>(options =>
 {
     var connString = builder.Configuration.GetConnectionString("mssql_connection");

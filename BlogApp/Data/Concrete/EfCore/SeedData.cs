@@ -7,6 +7,7 @@ namespace BlogApp.Data.Concrete.EfCore
 {
     public static class SeedData
     {
+        //SeedData benim en başta test icin kullanacağım verileri yazdığım yerdir.
         public static void FillTestDatas(IApplicationBuilder app)
         {
             var context = app.ApplicationServices.CreateScope().ServiceProvider.GetService<BlogContext>();
@@ -15,6 +16,7 @@ namespace BlogApp.Data.Concrete.EfCore
             {
                 if (context.Database.GetPendingMigrations().Any())
                 {
+                    //uygulama ayaga kalkınca migrationları migrate et.
                     context.Database.Migrate();
                 }
 

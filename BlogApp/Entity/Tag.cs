@@ -20,6 +20,7 @@
 
         public TagColors? Color { get; set; }
 
+        //bir tag hangi postları içerir? icerdigi tüm ppostların listesi..
         public List<Post> Posts { get; set; } = new List<Post>();
     }
 }

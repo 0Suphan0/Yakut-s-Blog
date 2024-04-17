@@ -15,15 +15,18 @@ namespace BlogApp.Controllers
 {
     public class PostsController : Controller
     {
-
+        //controller tarafında soyut hallerine erişiriz ve Dependency Injection ile somut hallerini alırız. Program.cs tarafında atamışızdır..
         private readonly IPostRepository _postRepository;
         private readonly ICommentRepository _commentRepository;
+        private readonly ITagRepository _tagRepository;
 
 
-        public PostsController(IPostRepository postRepository, ICommentRepository commentRepository)
+        public PostsController(IPostRepository postRepository, ICommentRepository commentRepository, ITagRepository tagRepository)
         {
+            //uygulama bu kontroller'u ayaga kaldırınca gider container'dan ilgili somut hallerini alır.
             _postRepository = postRepository;
             _commentRepository = commentRepository;
+            _tagRepository = tagRepository;
         }
 
         public async Task<IActionResult>Index(string tag)
@@ -144,13 +147,15 @@ namespace BlogApp.Controllers
                 return NotFound();
             }
 
-            var post = _postRepository.Posts.FirstOrDefault(i => i.PostId == id);
+            var post = _postRepository.Posts.Include(i=>i.Tags).FirstOrDefault(i => i.PostId == id);
 
             if (post == null)
             {
                 return NotFound();
             }
 
+            ViewBag.Tags = _tagRepository.Tags.ToList();
+            
             return View(new PostCreateViewModel()
             {
                 PostId = post.PostId,
@@ -158,7 +163,8 @@ namespace BlogApp.Controllers
                 Description = post.Description,
                 IsActive = post.IsActive,
                 Title = post.Title,
-                Url = post.Url
+                Url = post.Url,
+                Tags=post.Tags,
             });
 
 
