@@ -40,19 +40,21 @@ The project is a web application developed using .NET Core MVC. This application
 ## Giriş Ekranı:
 ![Giriş Ekranı](ProjectSS/5.png)
 
+## Girişten Sonra NavBar'da Kullanıcı Bilgileri Gösterilmesi Ekranı:
+![Girişten Sonra NavBar'da Kullanıcı Bilgileri Gösterilmesi Ekranı](ProjectSS/6.png)
+
 ## Giriş Yaptıktan Sonra Yorum Ekleme:
-![Giriş Yaptıktan Sonra Yorum Ekleme](ProjectSS/6.png)
+![Giriş Yaptıktan Sonra Yorum Ekleme](ProjectSS/7.png)
 
 ## Kullanıcın Gönderdiği Postları Editleme İşlemi ( Yeni Post da ekleyebilir.)
-![Kullanıcın Gönderdiği Postları Editleme İşlemi](ProjectSS/7.png)
+![Kullanıcın Gönderdiği Postları Editleme İşlemi](ProjectSS/8.png)
 
 ## Post Oluşturma Ekranı
-![Post Oluşturma Ekranı](ProjectSS/8.png)
+![Post Oluşturma Ekranı](ProjectSS/9.png)
 
 ## Kullanıcı Profil Sayfası:
-![Kullanıcı Profil Sayfası](ProjectSS/9.png)
+![Kullanıcı Profil Sayfası](ProjectSS/10.png)
 
 ## Başka Bir Kullanıcı Profil Sayfası:
-![Başka Bir Kullanıcı Profil Sayfası](ProjectSS/10.png)
-
+![Başka Bir Kullanıcı Profil Sayfası](ProjectSS/11.png)
 
